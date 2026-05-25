@@ -239,38 +239,116 @@
                     <h3 class="fw-bold mt-2 mb-0">Academic Guidance & Mentoring</h3>
                 </div>
             </div>
-            <div class="row g-3">
-                @forelse($supervisions as $supervision)
-                    <div class="col-md-6">
-                        <article class="card card-clean p-4 h-100">
-                            <div class="d-flex justify-content-between gap-3 mb-2">
-                                <span class="badge text-bg-info text-white">{{ str($supervision->type)->replace('_', ' ')->headline() }}</span>
-                                <span class="badge text-bg-{{ $supervision->status === 'completed' ? 'success' : 'secondary' }}">{{ ucfirst($supervision->status) }}</span>
+            @if($supervisionsByYear->isEmpty())
+                <div class="alert alert-info mb-0">Data mahasiswa bimbingan dapat ditambahkan dari admin panel.</div>
+            @else
+                {{-- Year switcher: pills horizontal scroll, click → swap table di bawahnya --}}
+                <div class="year-switcher mb-3" role="tablist">
+                    @foreach($supervisionsByYear as $year => $rows)
+                        <button type="button"
+                                class="year-pill {{ $loop->first ? 'active' : '' }}"
+                                data-bs-toggle="tab"
+                                data-bs-target="#sup-year-{{ $year }}"
+                                role="tab"
+                                aria-selected="{{ $loop->first ? 'true' : 'false' }}">
+                            <span class="year-pill-year">{{ $year }}</span>
+                            <span class="year-pill-count">{{ $rows->count() }}</span>
+                        </button>
+                    @endforeach
+                </div>
+
+                <div class="tab-content">
+                    @foreach($supervisionsByYear as $year => $rows)
+                        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                             id="sup-year-{{ $year }}" role="tabpanel">
+                            <div class="card card-clean overflow-hidden">
+                                <div class="table-responsive">
+                                    <table class="table align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width:60px;">#</th>
+                                                <th style="width:140px;">NRP</th>
+                                                <th style="width:240px;">Nama Mahasiswa</th>
+                                                <th>Judul Proyek</th>
+                                                <th style="width:110px;">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($rows as $i => $s)
+                                                <tr>
+                                                    <td class="text-muted">{{ $i + 1 }}</td>
+                                                    <td class="font-monospace small">{{ $s->student_identifier ?: '-' }}</td>
+                                                    <td class="fw-semibold">{{ $s->student_name }}</td>
+                                                    <td>
+                                                        <div>{{ $s->project_title }}</div>
+                                                        @if($s->program)
+                                                            <div class="text-muted small mt-1">{{ $s->program }}</div>
+                                                        @endif
+                                                        @if($s->result_url)
+                                                            <a href="{{ $s->result_url }}" target="_blank" rel="noopener" class="small fw-semibold">
+                                                                View result <i class="bi bi-box-arrow-up-right"></i>
+                                                            </a>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge text-bg-{{ $s->status === 'completed' ? 'success' : 'secondary' }}">
+                                                            {{ ucfirst($s->status) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <h4 class="h5 fw-bold">{{ $supervision->project_title }}</h4>
-                            <div class="text-muted small mb-2">
-                                {{ $supervision->student_name }}
-                                @if($supervision->program)
-                                    - {{ $supervision->program }}
-                                @endif
-                                @if($supervision->academic_year)
-                                    - {{ $supervision->academic_year }}
-                                @endif
-                            </div>
-                            @if($supervision->description)
-                                <p class="text-secondary">{{ $supervision->description }}</p>
-                            @endif
-                            @if($supervision->result_url)
-                                <a href="{{ $supervision->result_url }}" target="_blank" rel="noopener" class="fw-semibold">View result</a>
-                            @endif
-                        </article>
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <div class="alert alert-info mb-0">Data mahasiswa bimbingan dapat ditambahkan dari admin panel.</div>
-                    </div>
-                @endforelse
-            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
+            <style>
+                .year-switcher {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                }
+                .year-pill {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 14px;
+                    border: 1px solid var(--line);
+                    background: #fff;
+                    border-radius: 999px;
+                    font-size: .85rem;
+                    font-weight: 600;
+                    color: var(--muted);
+                    cursor: pointer;
+                    transition: all .15s ease;
+                }
+                .year-pill:hover {
+                    border-color: var(--cyan);
+                    color: var(--cyan);
+                }
+                .year-pill.active {
+                    background: var(--cyan);
+                    border-color: var(--cyan);
+                    color: #fff;
+                    box-shadow: 0 4px 12px rgba(14, 165, 183, .25);
+                }
+                .year-pill-year { font-weight: 700; }
+                .year-pill-count {
+                    background: rgba(0,0,0,.08);
+                    color: inherit;
+                    padding: 1px 8px;
+                    border-radius: 999px;
+                    font-size: .72rem;
+                    line-height: 1.4;
+                }
+                .year-pill.active .year-pill-count {
+                    background: rgba(255,255,255,.25);
+                }
+            </style>
         </div>
     </section>
 

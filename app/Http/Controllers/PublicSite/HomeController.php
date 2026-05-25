@@ -41,7 +41,13 @@ class HomeController extends Controller
             'portfolioCategories' => $portfolios->pluck('category')->unique()->values(),
             'publications' => Publication::query()->active()->orderByDesc('year')->ordered()->take(6)->get(),
             'teachingCourses' => TeachingCourse::query()->active()->ordered()->get(),
-            'supervisions' => Supervision::query()->active()->ordered()->latest('id')->take(8)->get(),
+            'supervisionsByYear' => Supervision::query()
+                ->active()
+                ->whereNotNull('academic_year')
+                ->orderBy('student_name')
+                ->get()
+                ->groupBy('academic_year')
+                ->sortKeysDesc(),
             'blogPosts' => BlogPost::query()->published()->latest('published_at')->take(3)->get(),
             'socialLinks' => SocialLink::query()->active()->ordered()->get(),
         ]);

@@ -21,6 +21,7 @@ use App\Http\Controllers\PublicSite\ContactController;
 use App\Http\Controllers\PublicSite\HomeController;
 use App\Http\Controllers\PublicSite\PortfolioController;
 use App\Http\Controllers\PublicSite\PublicationController;
+use App\Http\Controllers\PublicSite\SupervisionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -28,6 +29,9 @@ Route::get('/portfolio/{portfolio:slug}', [PortfolioController::class, 'show'])-
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{blogPost:slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/publications', [PublicationController::class, 'index'])->name('publications.index');
+Route::get('/supervisions/{year}', [SupervisionController::class, 'showYear'])
+    ->where('year', '[0-9]{4}')
+    ->name('supervisions.year');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::redirect('/login', '/admin/login')->name('login');
 
