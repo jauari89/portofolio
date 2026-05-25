@@ -18,8 +18,8 @@ class SiteSettingRequest extends FormRequest
             'site_title' => ['required', 'string', 'max:180'],
             'meta_description' => ['nullable', 'string', 'max:500'],
             'meta_keywords' => ['nullable', 'string', 'max:500'],
-            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'favicon' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'favicon' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'cv_file' => ['nullable', 'file', 'mimes:pdf', 'max:5120'],
         ];
     }

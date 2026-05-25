@@ -22,7 +22,7 @@ class BlogPostRequest extends FormRequest
             'category' => ['nullable', 'string', 'max:120'],
             'excerpt' => ['nullable', 'string', 'max:600'],
             'content' => ['required', 'string'],
-            'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'published_at' => ['nullable', 'date'],
             'status' => ['required', Rule::in(['draft', 'published'])],
         ];

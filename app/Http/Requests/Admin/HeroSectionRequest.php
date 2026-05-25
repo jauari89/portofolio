@@ -17,7 +17,7 @@ class HeroSectionRequest extends FormRequest
             'headline' => ['required', 'string', 'max:180'],
             'subheadline' => ['required', 'string', 'max:220'],
             'description' => ['nullable', 'string', 'max:800'],
-            'background_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'background_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'primary_button_text' => ['nullable', 'string', 'max:80'],
             'primary_button_url' => ['nullable', 'string', 'max:255'],
             'secondary_button_text' => ['nullable', 'string', 'max:80'],

@@ -22,7 +22,7 @@ class ProfileSectionRequest extends FormRequest
             'primary_email' => ['nullable', 'email', 'max:150'],
             'secondary_email' => ['nullable', 'email', 'max:150'],
             'phone' => ['nullable', 'string', 'max:40'],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'birthdate' => ['nullable', 'date'],
         ];
     }

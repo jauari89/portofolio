@@ -22,7 +22,7 @@ class PortfolioRequest extends FormRequest
             'category' => ['required', 'string', 'max:120'],
             'short_description' => ['required', 'string', 'max:600'],
             'content' => ['nullable', 'string'],
-            'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'year' => ['nullable', 'integer', 'min:1900', 'max:2100'],
             'client_or_institution' => ['nullable', 'string', 'max:180'],
             'demo_url' => ['nullable', 'url', 'max:255'],
