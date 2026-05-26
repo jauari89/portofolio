@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AcademicMetricController as AdminAcademicMetricController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
@@ -56,6 +57,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/settings', [AdminSiteSettingController::class, 'update'])->name('settings.update');
 
         Route::resource('stats', AdminStatController::class);
+        Route::resource('academic-metrics', AdminAcademicMetricController::class);
         Route::resource('skills', AdminSkillController::class);
         Route::resource('services', AdminServiceController::class);
         Route::resource('experiences', AdminExperienceController::class);

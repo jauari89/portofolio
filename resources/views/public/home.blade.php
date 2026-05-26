@@ -6,13 +6,14 @@
 <header id="home" class="hero d-flex align-items-center" style="{{ $hero->background_image ? '--hero-bg: url('.asset('storage/'.$hero->background_image).')' : '' }}">
     <div class="container">
         <div class="row align-items-center g-5">
-            <div class="col-lg-7">
-                <span class="badge text-bg-light text-dark mb-3 px-3 py-2">{{ $hero->subheadline }}</span>
+            <div class="col-lg-7 reveal">
+                <span class="chip mb-4"><span class="chip-dot"></span>{{ $profile->professional_title ?: $hero->subheadline }}</span>
                 <h1 class="fw-bold mb-4">{{ $hero->headline ?: $profile->full_name }}</h1>
                 <p class="lead hero-copy mb-4">{{ $hero->description ?: $profile->short_description }}</p>
                 <div class="d-flex flex-wrap gap-3">
                     <a href="{{ $hero->primary_button_url ?: '#portfolio' }}" class="btn btn-primary btn-lg">
                         {{ $hero->primary_button_text ?: 'View Portfolio' }}
+                        <i class="bi bi-arrow-right"></i>
                     </a>
                     <a href="{{ $hero->secondary_button_url ?: '#contact' }}" class="btn btn-outline-light btn-lg">
                         {{ $hero->secondary_button_text ?: 'Contact Me' }}
@@ -21,14 +22,28 @@
                         <a href="{{ asset('storage/'.$setting->cv_file) }}" class="btn btn-light btn-lg" target="_blank" rel="noopener">Download CV</a>
                     @endif
                 </div>
+                @if($stats->isNotEmpty())
+                    <dl class="row g-4 mt-5 mb-0">
+                        @foreach($stats->take(4) as $stat)
+                            <div class="col-6 col-md-3">
+                                <dt class="hero-stat-label">{{ $stat->label }}</dt>
+                                <dd class="hero-stat-value mb-0">{{ $stat->value }}+</dd>
+                            </div>
+                        @endforeach
+                    </dl>
+                @endif
             </div>
-            <div class="col-lg-5 d-flex justify-content-lg-end justify-content-center">
+            <div class="col-lg-5 d-flex justify-content-lg-end justify-content-center reveal reveal-delay-2">
                 <div class="profile-frame">
                     @if($profile->profile_photo)
                         <img src="{{ asset('storage/'.$profile->profile_photo) }}" alt="{{ $profile->full_name }}">
                     @else
                         <div class="profile-placeholder">JA</div>
                     @endif
+                    <div class="profile-caption">
+                        <div class="small text-uppercase opacity-75 fw-semibold">{{ $profile->professional_title ?: 'Lecturer, Software Engineer' }}</div>
+                        <div class="fw-semibold">{{ $profile->location ?: 'Surabaya, Jawa Timur' }}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,6 +51,48 @@
 </header>
 
 <main>
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-kicker">Academic Profiles</div>
+                <h2 class="fw-bold mt-2">Citation Metrics & Research Identity</h2>
+            </div>
+            <div class="row g-4">
+                @php
+                    $metricCards = $academicMetrics->isNotEmpty() ? $academicMetrics : $stats->take(4);
+                @endphp
+                @forelse($metricCards as $metric)
+                    <div class="col-sm-6 col-lg-3">
+                        <article class="card card-clean p-4 h-100">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <span class="icon-box"><i class="{{ $metric->icon ?: 'bi bi-bar-chart' }}"></i></span>
+                                @if(! empty($metric->source_url))
+                                    <a href="{{ $metric->source_url }}" target="_blank" rel="noopener" class="text-muted small stretched-link" aria-label="Open {{ $metric->label }} source">
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </a>
+                                @else
+                                    <span class="text-muted small"><i class="bi bi-arrow-up-right"></i></span>
+                                @endif
+                            </div>
+                            <div class="small text-uppercase text-muted fw-bold mb-1" style="letter-spacing:.12em;">{{ $metric->label }}</div>
+                            <div class="metric-value fw-bold mb-0">{{ $metric->value }}{{ $metric->suffix }}</div>
+                            @if(! empty($metric->source_name))
+                                <div class="small text-muted mt-2">{{ $metric->source_name }}</div>
+                            @endif
+                            @if(! empty($metric->description))
+                                <p class="small text-secondary mt-3 mb-0">{{ $metric->description }}</p>
+                            @endif
+                        </article>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-info mb-0">Statistik profesional siap ditambahkan dari admin panel.</div>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </section>
+
     <section id="about" class="section">
         <div class="container">
             <div class="row g-5 align-items-start">
@@ -202,6 +259,13 @@
                             <h3 class="h5">{{ $publication->title }}</h3>
                             <p class="text-muted mb-2">{{ $publication->authors }}</p>
                             <div class="text-secondary small">{{ $publication->journal_or_conference ?: $publication->publisher }}</div>
+                            @if($publication->volume || $publication->issue || $publication->pages)
+                                <div class="text-secondary small">
+                                    @if($publication->volume) Vol. {{ $publication->volume }} @endif
+                                    @if($publication->issue) No. {{ $publication->issue }} @endif
+                                    @if($publication->pages) pp. {{ $publication->pages }} @endif
+                                </div>
+                            @endif
                             @if($publication->url)
                                 <a href="{{ $publication->url }}" target="_blank" rel="noopener" class="fw-semibold mt-2 d-inline-block">Publication link</a>
                             @endif

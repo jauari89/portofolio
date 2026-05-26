@@ -18,14 +18,26 @@ class PublicationController extends BaseCrudController
 
     protected string $searchColumn = 'title';
 
-    protected array $indexColumns = ['title' => 'Title', 'authors' => 'Authors', 'year' => 'Year', 'journal_or_conference' => 'Journal / Conference', 'is_active' => 'Active'];
+    protected array $indexColumns = ['title' => 'Title', 'authors' => 'Authors', 'year' => 'Year', 'journal_or_conference' => 'Journal / Conference', 'pages' => 'Pages', 'is_active' => 'Active'];
+
+    protected array $searchColumns = [
+        'title' => 'Title',
+        'authors' => 'Authors',
+        'year' => 'Year',
+        'journal_or_conference' => 'Journal / Conference',
+        'publisher' => 'Publisher',
+        'doi' => 'DOI',
+    ];
 
     protected array $fields = [
         ['name' => 'authors', 'label' => 'Authors', 'type' => 'textarea', 'rows' => 3, 'col' => 'col-12'],
         ['name' => 'title', 'label' => 'Title', 'type' => 'textarea', 'rows' => 3, 'col' => 'col-12'],
-        ['name' => 'year', 'label' => 'Year', 'type' => 'number', 'col' => 'col-md-3'],
+        ['name' => 'year', 'label' => 'Year', 'type' => 'number', 'col' => 'col-md-2'],
         ['name' => 'publisher', 'label' => 'Publisher', 'type' => 'text', 'col' => 'col-md-3'],
-        ['name' => 'journal_or_conference', 'label' => 'Journal / Conference', 'type' => 'text', 'col' => 'col-md-6'],
+        ['name' => 'journal_or_conference', 'label' => 'Journal / Conference', 'type' => 'text', 'col' => 'col-md-7'],
+        ['name' => 'volume', 'label' => 'Volume', 'type' => 'text', 'col' => 'col-md-3'],
+        ['name' => 'issue', 'label' => 'Issue / Number', 'type' => 'text', 'col' => 'col-md-3'],
+        ['name' => 'pages', 'label' => 'Pages', 'type' => 'text', 'col' => 'col-md-3'],
         ['name' => 'doi', 'label' => 'DOI', 'type' => 'text', 'col' => 'col-md-4'],
         ['name' => 'url', 'label' => 'URL', 'type' => 'url', 'col' => 'col-md-4'],
         ['name' => 'sort_order', 'label' => 'Sort Order', 'type' => 'number', 'col' => 'col-md-2'],

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 abstract class BaseCrudController extends Controller
@@ -28,6 +29,10 @@ abstract class BaseCrudController extends Controller
 
     protected string $searchColumn = 'title';
 
+    protected array $searchColumns = [];
+
+    protected array $sortableColumns = [];
+
     protected int $perPage = 12;
 
     protected array $fields = [];
@@ -44,6 +49,12 @@ abstract class BaseCrudController extends Controller
             'routeName' => $this->routeName,
             'columns' => $this->indexColumns,
             'items' => $this->paginate($request),
+            'searchColumns' => $this->searchableColumns(),
+            'selectedSearchColumn' => $this->selectedSearchColumn($request),
+            'autocompleteOptions' => $this->autocompleteOptions(),
+            'sortableColumns' => array_keys($this->sortableColumns()),
+            'currentSort' => $this->currentSortColumn($request),
+            'currentDirection' => $this->currentSortDirection($request),
         ]);
     }
 
@@ -114,14 +125,111 @@ abstract class BaseCrudController extends Controller
 
     protected function paginate(Request $request): LengthAwarePaginator
     {
-        return $this->model::query()
-            ->when($request->filled('q'), function ($query) use ($request) {
-                $query->where($this->searchColumn, 'like', '%'.$request->string('q')->toString().'%');
-            })
-            ->when($this->orderColumn, fn ($query) => $query->orderBy($this->orderColumn))
+        $query = $this->model::query();
+        $keyword = trim($request->string('q')->toString());
+        $searchColumn = $this->selectedSearchColumn($request);
+        $searchColumns = array_keys($this->searchableColumns());
+
+        if ($keyword !== '' && $searchColumns !== []) {
+            $query->where(function ($searchQuery) use ($keyword, $searchColumn, $searchColumns) {
+                if ($searchColumn) {
+                    $searchQuery->where($searchColumn, 'like', '%'.$keyword.'%');
+
+                    return;
+                }
+
+                foreach ($searchColumns as $index => $column) {
+                    $method = $index === 0 ? 'where' : 'orWhere';
+                    $searchQuery->{$method}($column, 'like', '%'.$keyword.'%');
+                }
+            });
+        }
+
+        if ($sortColumn = $this->currentSortColumn($request)) {
+            $query->orderBy($sortColumn, $this->currentSortDirection($request));
+        } elseif ($this->orderColumn) {
+            $query->orderBy($this->orderColumn);
+        }
+
+        return $query
             ->latest('id')
             ->paginate($this->perPage)
             ->withQueryString();
+    }
+
+    protected function searchableColumns(): array
+    {
+        if ($this->searchColumns !== []) {
+            return $this->searchColumns;
+        }
+
+        $columns = [];
+
+        if ($this->searchColumn !== '') {
+            $columns[$this->searchColumn] = $this->indexColumns[$this->searchColumn] ?? Str::headline($this->searchColumn);
+        }
+
+        foreach ($this->indexColumns as $column => $label) {
+            if (in_array($column, ['is_active', 'sort_order'], true)) {
+                continue;
+            }
+
+            $columns[$column] = $label;
+        }
+
+        return $columns;
+    }
+
+    protected function sortableColumns(): array
+    {
+        return $this->sortableColumns !== [] ? $this->sortableColumns : $this->indexColumns;
+    }
+
+    protected function selectedSearchColumn(Request $request): string
+    {
+        $column = $request->string('search_by')->toString();
+
+        return array_key_exists($column, $this->searchableColumns()) ? $column : '';
+    }
+
+    protected function currentSortColumn(Request $request): string
+    {
+        $column = $request->string('sort')->toString();
+
+        return array_key_exists($column, $this->sortableColumns()) ? $column : '';
+    }
+
+    protected function currentSortDirection(Request $request): string
+    {
+        return $request->string('direction')->lower()->toString() === 'desc' ? 'desc' : 'asc';
+    }
+
+    protected function autocompleteOptions(): array
+    {
+        $options = [];
+
+        foreach ($this->searchableColumns() as $column => $label) {
+            $options[$column] = $this->model::query()
+                ->whereNotNull($column)
+                ->where($column, '!=', '')
+                ->distinct()
+                ->orderBy($column)
+                ->limit(80)
+                ->pluck($column)
+                ->map(fn ($value) => (string) $value)
+                ->filter()
+                ->values()
+                ->all();
+        }
+
+        $options['_all'] = collect($options)
+            ->flatten()
+            ->unique()
+            ->take(80)
+            ->values()
+            ->all();
+
+        return $options;
     }
 
     protected function findItem(int|string $id): Model

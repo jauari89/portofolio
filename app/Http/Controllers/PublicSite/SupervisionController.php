@@ -30,12 +30,12 @@ class SupervisionController extends Controller
             ->get();
 
         return view('public.supervisions.year', [
-            'setting'      => SiteSetting::current(),
-            'profile'      => ProfileSection::current(),
-            'socialLinks'  => SocialLink::query()->active()->ordered()->get(),
-            'year'         => $year,
+            'setting' => SiteSetting::current(),
+            'profile' => ProfileSection::current(),
+            'socialLinks' => SocialLink::query()->active()->ordered()->get(),
+            'year' => $year,
             'supervisions' => $supervisions,
-            'yearStats'    => $yearStats,
+            'yearStats' => $yearStats,
         ]);
     }
 }

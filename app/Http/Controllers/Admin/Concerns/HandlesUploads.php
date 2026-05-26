@@ -33,17 +33,17 @@ trait HandlesUploads
 
         // Image: resize down + recompress to keep storage/bandwidth low.
         $maxWidth = $this->maxWidthForDirectory($directory);
-        $ext      = $this->normalizeExtension($file->getClientOriginalExtension(), $mime);
+        $ext = $this->normalizeExtension($file->getClientOriginalExtension(), $mime);
         $filename = $directory.'/'.Str::random(40).'.'.$ext;
-        $target   = Storage::disk('public')->path($filename);
+        $target = Storage::disk('public')->path($filename);
 
         $dir = dirname($target);
         if (! is_dir($dir)) {
             mkdir($dir, 0775, true);
         }
 
-        $manager = new ImageManager(new Driver());
-        $image   = $manager->decodePath($file->getRealPath());
+        $manager = new ImageManager(new Driver);
+        $image = $manager->decodePath($file->getRealPath());
 
         // Auto-rotate based on EXIF orientation (phone photos arrive sideways).
         $image->orient();
@@ -56,9 +56,9 @@ trait HandlesUploads
         // Quality 85 untuk JPEG/WebP → ~70% lebih kecil tanpa perbedaan visual.
         $encoded = match ($ext) {
             'jpg', 'jpeg' => $image->encode(new JpegEncoder(quality: 85)),
-            'webp'        => $image->encode(new WebpEncoder(quality: 85)),
-            'png'         => $image->encode(new PngEncoder()), // lossless
-            default       => $image->encode(new JpegEncoder(quality: 85)),
+            'webp' => $image->encode(new WebpEncoder(quality: 85)),
+            'png' => $image->encode(new PngEncoder), // lossless
+            default => $image->encode(new JpegEncoder(quality: 85)),
         };
         $encoded->save($target);
 
@@ -72,26 +72,28 @@ trait HandlesUploads
     private function maxWidthForDirectory(string $directory): int
     {
         $d = strtolower($directory);
+
         return match (true) {
-            str_contains($d, 'favicon')                                 => 256,
-            str_contains($d, 'logo')                                    => 800,
-            str_contains($d, 'profile')                                 => 1200,
-            str_contains($d, 'hero') || str_contains($d, 'background')  => 1920,
-            default                                                     => 1600,
+            str_contains($d, 'favicon') => 256,
+            str_contains($d, 'logo') => 800,
+            str_contains($d, 'profile') => 1200,
+            str_contains($d, 'hero') || str_contains($d, 'background') => 1920,
+            default => 1600,
         };
     }
 
     private function normalizeExtension(string $original, string $mime): string
     {
         $ext = strtolower($original);
+
         return match (true) {
-            in_array($ext, ['jpg', 'jpeg'])    => 'jpg',
-            $ext === 'png'                     => 'png',
-            $ext === 'webp'                    => 'webp',
-            $mime === 'image/jpeg'             => 'jpg',
-            $mime === 'image/png'              => 'png',
-            $mime === 'image/webp'             => 'webp',
-            default                            => 'jpg',
+            in_array($ext, ['jpg', 'jpeg']) => 'jpg',
+            $ext === 'png' => 'png',
+            $ext === 'webp' => 'webp',
+            $mime === 'image/jpeg' => 'jpg',
+            $mime === 'image/png' => 'png',
+            $mime === 'image/webp' => 'webp',
+            default => 'jpg',
         };
     }
 }

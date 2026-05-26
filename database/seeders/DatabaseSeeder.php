@@ -79,6 +79,8 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+        $this->call(AcademicMetricSeeder::class);
+
         $skills = [
             ['name' => 'Laravel', 'category' => 'Backend', 'percentage' => 50],
             ['name' => 'ReactJS', 'category' => 'Frontend', 'percentage' => 71],

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PublicSite;
 
 use App\Http\Controllers\Controller;
+use App\Models\AcademicMetric;
 use App\Models\BlogPost;
 use App\Models\Experience;
 use App\Models\HeroSection;
@@ -34,6 +35,7 @@ class HomeController extends Controller
             'profile' => ProfileSection::current(),
             'hero' => HeroSection::current(),
             'stats' => Stat::query()->active()->ordered()->get(),
+            'academicMetrics' => AcademicMetric::query()->active()->ordered()->get(),
             'skills' => Skill::query()->active()->ordered()->get(),
             'services' => Service::query()->active()->ordered()->get(),
             'experiences' => Experience::query()->active()->ordered()->orderByDesc('start_year')->get(),

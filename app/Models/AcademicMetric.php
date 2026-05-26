@@ -6,23 +6,19 @@ use App\Models\Concerns\HasActiveScope;
 use App\Models\Concerns\HasOrderedScope;
 use Illuminate\Database\Eloquent\Model;
 
-class Publication extends Model
+class AcademicMetric extends Model
 {
     use HasActiveScope;
     use HasOrderedScope;
 
     protected $fillable = [
-        'authors',
-        'title',
-        'year',
-        'publisher',
-        'journal_or_conference',
-        'volume',
-        'issue',
-        'pages',
-        'doi',
-        'url',
-        'abstract',
+        'label',
+        'value',
+        'suffix',
+        'source_name',
+        'source_url',
+        'icon',
+        'description',
         'sort_order',
         'is_active',
     ];
@@ -30,7 +26,6 @@ class Publication extends Model
     protected function casts(): array
     {
         return [
-            'year' => 'integer',
             'sort_order' => 'integer',
             'is_active' => 'boolean',
         ];

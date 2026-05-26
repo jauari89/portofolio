@@ -195,6 +195,7 @@
                         ['label' => 'About', 'icon' => 'bi bi-info-circle', 'route' => 'admin.about.edit', 'match' => 'admin.about.*'],
                         ['label' => 'Hero', 'icon' => 'bi bi-stars', 'route' => 'admin.hero.edit', 'match' => 'admin.hero.*'],
                         ['label' => 'Stats', 'icon' => 'bi bi-bar-chart', 'route' => 'admin.stats.index', 'match' => 'admin.stats.*'],
+                        ['label' => 'Academic Metrics', 'icon' => 'bi bi-mortarboard', 'route' => 'admin.academic-metrics.index', 'match' => 'admin.academic-metrics.*'],
                         ['label' => 'Skills', 'icon' => 'bi bi-tools', 'route' => 'admin.skills.index', 'match' => 'admin.skills.*'],
                         ['label' => 'Services', 'icon' => 'bi bi-grid', 'route' => 'admin.services.index', 'match' => 'admin.services.*'],
                         ['label' => 'Experiences', 'icon' => 'bi bi-mortarboard', 'route' => 'admin.experiences.index', 'match' => 'admin.experiences.*'],
