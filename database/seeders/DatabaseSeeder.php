@@ -139,6 +139,8 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+        $this->call(PromediaPortfolioSeeder::class);
+
         $publications = [
             ['authors' => "Sa'adah,Umi; Permatasari,Desy Intan; Hardiansyah,Fadilah Fahrul; Yunanto,Andhik Ampuh; Hasim,Jauari Akhmad Nur; Wulandari,Irma; Pahlevi,Muhammad Reza; Shihab,Dufan Quraish", 'title' => 'Tool Refactoring Otomatis untuk Menangani Lazy Class Code Smell dengan Pendekatan Software Metrics', 'year' => 2022],
             ['authors' => 'Saputra,Ferry Astika; Salman,Muhammad; Hasim,Jauari Akhmad Nur; Nadhori,Isbat Uzzin; Ramli,Kalamullah', 'title' => 'The Next-Generation NIDS Platform: Cloud-Based Snort NIDS Using Containers and Big Data', 'year' => 2022],
