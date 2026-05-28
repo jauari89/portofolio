@@ -110,14 +110,21 @@
         body.theme-light .nav-link {
             color: rgba(15, 23, 42, .78);
         }
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover {
             color: var(--brand-300);
             background: rgba(255, 255, 255, .06);
         }
-        body.theme-light .nav-link:hover,
-        body.theme-light .nav-link.active {
+        body.theme-light .nav-link:hover {
             color: var(--brand-700);
             background: var(--brand-50);
+        }
+        .navbar-nav .nav-link.active {
+            color: rgba(226, 232, 240, .86);
+            background: transparent;
+        }
+        body.theme-light .navbar-nav .nav-link.active {
+            color: rgba(15, 23, 42, .78);
+            background: transparent;
         }
         .theme-toggle {
             width: 2.4rem;
@@ -439,7 +446,6 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('blog.index') }}">Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contact">Contact</a></li>
                 </ul>
-                <a href="{{ route('home') }}#contact" class="btn btn-primary btn-sm ms-lg-3 mt-3 mt-lg-0">Hubungi</a>
             </div>
         </div>
     </nav>
