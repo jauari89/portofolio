@@ -20,4 +20,14 @@ class ContactRequest extends FormRequest
             'message' => ['required', 'string', 'min:10', 'max:5000'],
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => __('site.home.form.name'),
+            'email' => __('site.home.form.email'),
+            'subject' => __('site.home.form.subject'),
+            'message' => __('site.home.form.message'),
+        ];
+    }
 }

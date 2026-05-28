@@ -1,23 +1,23 @@
 @extends('layouts.public')
 
-@section('title', 'Bimbingan Mahasiswa '.$year.' | '.($setting->site_name ?? 'Jauari Akhmad'))
+@section('title', __('site.supervisions.page_title', ['year' => $year]).' | '.($setting->site_name ?? 'Jauari Akhmad'))
 
 @section('content')
 <main class="section section-soft">
     <div class="container">
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('home') }}#supervisions" class="text-decoration-none">Supervisions</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none">{{ __('site.nav.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}#teaching" class="text-decoration-none">{{ __('site.supervisions.breadcrumb') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $year }}</li>
             </ol>
         </nav>
 
         <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
             <div>
-                <div class="section-kicker">Student Supervision</div>
-                <h1 class="fw-bold mt-2 mb-0">Bimbingan Mahasiswa {{ $year }}</h1>
-                <div class="text-muted mt-2">{{ $supervisions->count() }} mahasiswa dalam tahun {{ $year }}</div>
+                <div class="section-kicker">{{ __('site.supervisions.kicker') }}</div>
+                <h1 class="fw-bold mt-2 mb-0">{{ __('site.supervisions.heading', ['year' => $year]) }}</h1>
+                <div class="text-muted mt-2">{{ __('site.supervisions.count', ['count' => $supervisions->count(), 'year' => $year]) }}</div>
             </div>
         </div>
 
@@ -27,10 +27,10 @@
                     <thead class="table-light">
                         <tr>
                             <th style="width:60px;">#</th>
-                            <th style="width:140px;">NRP</th>
-                            <th style="width:220px;">Nama Mahasiswa</th>
-                            <th>Judul Proyek</th>
-                            <th style="width:120px;">Status</th>
+                            <th style="width:140px;">{{ __('site.supervisions.student_id') }}</th>
+                            <th style="width:220px;">{{ __('site.supervisions.student_name') }}</th>
+                            <th>{{ __('site.supervisions.project_title') }}</th>
+                            <th style="width:120px;">{{ __('site.supervisions.status') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +48,7 @@
                                         <div class="text-secondary small mt-1">{{ \Illuminate\Support\Str::limit($s->description, 200) }}</div>
                                     @endif
                                     @if($s->result_url)
-                                        <a href="{{ $s->result_url }}" target="_blank" rel="noopener" class="small fw-semibold">View result <i class="bi bi-box-arrow-up-right"></i></a>
+                                        <a href="{{ $s->result_url }}" target="_blank" rel="noopener" class="small fw-semibold">{{ __('site.common.view_result') }} <i class="bi bi-box-arrow-up-right"></i></a>
                                     @endif
                                 </td>
                                 <td>
@@ -65,8 +65,8 @@
 
         <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3">
             <div>
-                <div class="section-kicker">All Years</div>
-                <h3 class="fw-bold mt-2 mb-0">Jelajah Tahun Lain</h3>
+                <div class="section-kicker">{{ __('site.supervisions.all_years') }}</div>
+                <h3 class="fw-bold mt-2 mb-0">{{ __('site.supervisions.explore_other_years') }}</h3>
             </div>
         </div>
         <div class="row g-3">
@@ -76,7 +76,7 @@
                        class="card card-clean p-3 h-100 text-decoration-none text-reset year-card {{ $stat->academic_year == $year ? 'year-card-active' : '' }}">
                         <div class="d-flex flex-column align-items-center text-center">
                             <div class="h3 fw-bold mb-0" style="color: var(--cyan);">{{ $stat->academic_year }}</div>
-                            <div class="text-muted small">{{ $stat->total }} mahasiswa</div>
+                            <div class="text-muted small">{{ __('site.supervisions.student_count', ['count' => $stat->total]) }}</div>
                         </div>
                     </a>
                 </div>

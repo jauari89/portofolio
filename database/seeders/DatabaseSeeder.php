@@ -192,5 +192,7 @@ class DatabaseSeeder extends Seeder
                 $post + ['status' => 'published', 'published_at' => now()]
             );
         }
+
+        $this->call(SampleBlogPostSeeder::class);
     }
 }

@@ -7,7 +7,7 @@
 <main>
     <section class="section section-soft">
         <div class="container">
-            <a href="{{ route('home') }}#portfolio" class="text-decoration-none fw-semibold">&larr; Back to portfolio</a>
+            <a href="{{ route('home') }}#portfolio" class="text-decoration-none fw-semibold">&larr; {{ __('site.common.back_to_portfolio') }}</a>
             <div class="row g-5 mt-2 align-items-start">
                 <div class="col-lg-7">
                     <span class="badge text-bg-info text-white mb-3">{{ $portfolio->category }}</span>
@@ -36,21 +36,21 @@
             <div class="row g-5">
                 <div class="col-lg-8">
                     <article class="fs-5 text-secondary">
-                        {!! nl2br(e($portfolio->content ?: 'Detail project dapat diperbarui dari admin panel, termasuk latar belakang, teknologi, hasil implementasi, dan dampaknya.')) !!}
+                        {!! nl2br(e($portfolio->content ?: __('site.portfolio.content_empty'))) !!}
                     </article>
                 </div>
                 <aside class="col-lg-4">
                     <div class="card card-clean p-4">
-                        <h2 class="h5 fw-bold">Project Links</h2>
+                        <h2 class="h5 fw-bold">{{ __('site.common.project_links') }}</h2>
                         <div class="d-grid gap-2 mt-3">
                             @if($portfolio->demo_url)
-                                <a class="btn btn-primary" href="{{ $portfolio->demo_url }}" target="_blank" rel="noopener">Open Demo</a>
+                                <a class="btn btn-primary" href="{{ $portfolio->demo_url }}" target="_blank" rel="noopener">{{ __('site.common.open_demo') }}</a>
                             @endif
                             @if($portfolio->repository_url)
-                                <a class="btn btn-outline-primary" href="{{ $portfolio->repository_url }}" target="_blank" rel="noopener">Open Repository</a>
+                                <a class="btn btn-outline-primary" href="{{ $portfolio->repository_url }}" target="_blank" rel="noopener">{{ __('site.common.open_repository') }}</a>
                             @endif
                             @unless($portfolio->demo_url || $portfolio->repository_url)
-                                <div class="text-muted">Tautan demo atau repository belum tersedia.</div>
+                                <div class="text-muted">{{ __('site.portfolio.links_empty') }}</div>
                             @endunless
                         </div>
                     </div>
@@ -62,7 +62,7 @@
     @if($related->isNotEmpty())
         <section class="section section-soft">
             <div class="container">
-                <h2 class="fw-bold mb-4">Related Works</h2>
+                <h2 class="fw-bold mb-4">{{ __('site.common.related_works') }}</h2>
                 <div class="row g-4">
                     @foreach($related as $item)
                         <div class="col-md-4">
@@ -70,7 +70,7 @@
                                 <div class="text-info fw-semibold mb-2">{{ $item->category }}</div>
                                 <h3 class="h5 fw-bold">{{ $item->title }}</h3>
                                 <p class="text-secondary">{{ $item->short_description }}</p>
-                                <a href="{{ route('portfolio.show', $item) }}" class="stretched-link text-decoration-none fw-semibold">View detail</a>
+                                <a href="{{ route('portfolio.show', $item) }}" class="stretched-link text-decoration-none fw-semibold">{{ __('site.common.view_detail') }}</a>
                             </article>
                         </div>
                     @endforeach

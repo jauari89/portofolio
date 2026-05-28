@@ -14,6 +14,6 @@ class ContactController extends Controller
         ContactMessage::query()->create($request->validated());
 
         return back()
-            ->with('success', 'Terima kasih. Pesan Anda sudah tersimpan dan akan ditindaklanjuti.');
+            ->with('success', __('site.home.form.success'));
     }
 }

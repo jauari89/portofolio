@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="id">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', $setting->site_title ?? 'Jauari Akhmad Nur Hasim')</title>
-    <meta name="description" content="@yield('meta_description', $setting->meta_description ?? 'Portfolio profesional Jauari Akhmad Nur Hasim.')">
-    <meta name="keywords" content="{{ $setting->meta_keywords ?? 'Jauari Akhmad, lecturer, software engineer, portfolio' }}">
+    <meta name="description" content="@yield('meta_description', $setting->meta_description ?? __('site.meta.description'))">
+    <meta name="keywords" content="{{ $setting->meta_keywords ?? __('site.meta.keywords') }}">
     <link rel="canonical" href="{{ url()->current() }}">
     @if(! empty($setting?->favicon))
         <link rel="icon" href="{{ asset('storage/'.$setting->favicon) }}">
@@ -126,7 +126,8 @@
             color: rgba(15, 23, 42, .78);
             background: transparent;
         }
-        .theme-toggle {
+        .theme-toggle,
+        .language-toggle {
             width: 2.4rem;
             height: 2.4rem;
             display: inline-grid;
@@ -136,14 +137,28 @@
             color: rgba(226, 232, 240, .92);
             background: transparent;
         }
-        .theme-toggle:hover {
+        .language-toggle {
+            border: 1px solid rgba(155, 216, 228, .22);
+            color: var(--brand-300);
+            font-size: .76rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+        .theme-toggle:hover,
+        .language-toggle:hover {
             color: #fff;
             background: rgba(255, 255, 255, .06);
         }
-        body.theme-light .theme-toggle {
+        body.theme-light .theme-toggle,
+        body.theme-light .language-toggle {
             color: var(--navy);
         }
-        body.theme-light .theme-toggle:hover {
+        body.theme-light .language-toggle {
+            color: var(--brand-700);
+            border-color: rgba(9, 93, 117, .18);
+        }
+        body.theme-light .theme-toggle:hover,
+        body.theme-light .language-toggle:hover {
             color: var(--brand-700);
             background: var(--brand-50);
         }
@@ -416,6 +431,7 @@
     @stack('styles')
 </head>
 <body data-bs-spy="scroll" data-bs-target="#publicNavbar" data-bs-offset="84" tabindex="0">
+    @php($targetLocale = app()->getLocale() === 'id' ? 'en' : 'id')
     <nav id="publicNavbar" class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold d-inline-flex align-items-center gap-2" href="{{ route('home') }}">
@@ -427,24 +443,27 @@
                 {{ $setting->site_name ?? 'Jauari Akhmad' }}
             </a>
             <div class="d-flex align-items-center gap-2 order-lg-2">
-                <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle>
+                <a class="language-toggle" href="{{ request()->fullUrlWithQuery(['lang' => $targetLocale]) }}" aria-label="{{ __('site.nav.switch_language') }}">
+                    {{ strtoupper($targetLocale) }}
+                </a>
+                <button class="theme-toggle" type="button" aria-label="{{ __('site.nav.toggle_theme') }}" data-theme-toggle>
                     <i class="bi bi-sun"></i>
                 </button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="{{ __('site.nav.toggle_navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
             <div id="mainNav" class="collapse navbar-collapse order-lg-1">
                 <ul class="navbar-nav ms-auto gap-lg-1">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#services">Expertise</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#experience">Experience</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#portfolio">Works</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('publications.index') }}">Publications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#teaching">Teaching</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('blog.index') }}">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#home">{{ __('site.nav.home') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#about">{{ __('site.nav.about') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#services">{{ __('site.nav.expertise') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#experience">{{ __('site.nav.experience') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#portfolio">{{ __('site.nav.works') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('publications.index') }}">{{ __('site.nav.publications') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#teaching">{{ __('site.nav.teaching') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('blog.index') }}">{{ __('site.nav.blog') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contact">{{ __('site.nav.contact') }}</a></li>
                 </ul>
             </div>
         </div>

@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', ($setting->site_title ?? 'Jauari Akhmad Nur Hasim').' | Portfolio')
+@section('title', ($setting->site_title ?? 'Jauari Akhmad Nur Hasim').' | '.__('site.home.portfolio'))
 
 @section('content')
 <header id="home" class="hero d-flex align-items-center" style="{{ $hero->background_image ? '--hero-bg: url('.asset('storage/'.$hero->background_image).')' : '' }}">
@@ -12,14 +12,14 @@
                 <p class="lead hero-copy mb-4">{{ $hero->description ?: $profile->short_description }}</p>
                 <div class="d-flex flex-wrap gap-3">
                     <a href="{{ $hero->primary_button_url ?: '#portfolio' }}" class="btn btn-primary btn-lg">
-                        {{ $hero->primary_button_text ?: 'View Portfolio' }}
+                        {{ $hero->primary_button_text ?: __('site.home.view_portfolio') }}
                         <i class="bi bi-arrow-right"></i>
                     </a>
                     <a href="{{ $hero->secondary_button_url ?: '#contact' }}" class="btn btn-outline-light btn-lg">
-                        {{ $hero->secondary_button_text ?: 'Contact Me' }}
+                        {{ $hero->secondary_button_text ?: __('site.home.contact_me') }}
                     </a>
                     @if($setting->cv_file)
-                        <a href="{{ asset('storage/'.$setting->cv_file) }}" class="btn btn-light btn-lg" target="_blank" rel="noopener">Download CV</a>
+                        <a href="{{ asset('storage/'.$setting->cv_file) }}" class="btn btn-light btn-lg" target="_blank" rel="noopener">{{ __('site.home.download_cv') }}</a>
                     @endif
                 </div>
                 @if($stats->isNotEmpty())
@@ -41,8 +41,8 @@
                         <div class="profile-placeholder">JA</div>
                     @endif
                     <div class="profile-caption">
-                        <div class="small text-uppercase opacity-75 fw-semibold">{{ $profile->professional_title ?: 'Lecturer, Software Engineer' }}</div>
-                        <div class="fw-semibold">{{ $profile->location ?: 'Surabaya, Jawa Timur' }}</div>
+                        <div class="small text-uppercase opacity-75 fw-semibold">{{ $profile->professional_title ?: __('site.home.profile_fallback_title') }}</div>
+                        <div class="fw-semibold">{{ $profile->location ?: __('site.home.location_fallback') }}</div>
                     </div>
                 </div>
             </div>
@@ -54,8 +54,8 @@
     <section class="section">
         <div class="container">
             <div class="section-title">
-                <div class="section-kicker">Academic Profiles</div>
-                <h2 class="fw-bold mt-2">Citation Metrics & Research Identity</h2>
+                <div class="section-kicker">{{ __('site.home.academic_profiles') }}</div>
+                <h2 class="fw-bold mt-2">{{ __('site.home.citation_metrics') }}</h2>
             </div>
             <div class="row g-4">
                 @php
@@ -86,7 +86,7 @@
                     </div>
                 @empty
                     <div class="col-12">
-                        <div class="alert alert-info mb-0">Statistik profesional siap ditambahkan dari admin panel.</div>
+                        <div class="alert alert-info mb-0">{{ __('site.home.metrics_empty') }}</div>
                     </div>
                 @endforelse
             </div>
@@ -98,29 +98,29 @@
             <div class="row g-5 align-items-start">
                 <div class="col-lg-5">
                     <div class="section-title">
-                        <div class="section-kicker">About</div>
+                        <div class="section-kicker">{{ __('site.home.about') }}</div>
                         <h2 class="fw-bold mt-2">{{ $profile->full_name }}</h2>
                     </div>
                     <div class="card card-clean p-4">
                         <div class="d-flex gap-3 mb-3">
                             <span class="icon-box"><i class="bi bi-geo-alt"></i></span>
-                            <div><div class="text-muted small">Location</div><strong>{{ $profile->location ?: 'Lokasi dapat diperbarui dari admin panel' }}</strong></div>
+                            <div><div class="text-muted small">{{ __('site.home.location') }}</div><strong>{{ $profile->location ?: __('site.home.location_empty') }}</strong></div>
                         </div>
                         <div class="d-flex gap-3 mb-3">
                             <span class="icon-box"><i class="bi bi-envelope"></i></span>
-                            <div><div class="text-muted small">Email</div><strong>{{ $profile->primary_email ?: 'Email utama belum tersedia' }}</strong></div>
+                            <div><div class="text-muted small">{{ __('site.home.email') }}</div><strong>{{ $profile->primary_email ?: __('site.home.email_empty') }}</strong></div>
                         </div>
                         @if($profile->secondary_email)
                             <div class="d-flex gap-3">
                                 <span class="icon-box"><i class="bi bi-envelope-paper"></i></span>
-                                <div><div class="text-muted small">Alternative Email</div><strong>{{ $profile->secondary_email }}</strong></div>
+                                <div><div class="text-muted small">{{ __('site.home.alternative_email') }}</div><strong>{{ $profile->secondary_email }}</strong></div>
                             </div>
                         @endif
                     </div>
                 </div>
                 <div class="col-lg-7">
                     <p class="fs-5 text-secondary">{{ $profile->short_description }}</p>
-                    <div class="text-secondary">{!! nl2br(e($profile->long_description ?: 'Profil profesional ini dapat diperbarui melalui admin panel untuk menampilkan fokus akademik, rekam jejak pengembangan sistem, penelitian, dan pembimbingan mahasiswa.')) !!}</div>
+                    <div class="text-secondary">{!! nl2br(e($profile->long_description ?: __('site.home.profile_empty'))) !!}</div>
                     <div class="row g-3 mt-4">
                         @forelse($stats as $stat)
                             <div class="col-6 col-md-3">
@@ -131,7 +131,7 @@
                             </div>
                         @empty
                             <div class="col-12">
-                                <div class="alert alert-info mb-0">Statistik profesional siap ditambahkan dari admin panel.</div>
+                                <div class="alert alert-info mb-0">{{ __('site.home.metrics_empty') }}</div>
                             </div>
                         @endforelse
                     </div>
@@ -143,8 +143,8 @@
     <section id="services" class="section section-soft">
         <div class="container">
             <div class="section-title">
-                <div class="section-kicker">Expertise / Services</div>
-                <h2 class="fw-bold mt-2">Academic Technology, Systems, and Digital Media</h2>
+                <div class="section-kicker">{{ __('site.home.expertise') }}</div>
+                <h2 class="fw-bold mt-2">{{ __('site.home.expertise_title') }}</h2>
             </div>
             <div class="row g-4">
                 @foreach($services as $service)
@@ -163,8 +163,8 @@
     <section id="skills" class="section">
         <div class="container">
             <div class="section-title">
-                <div class="section-kicker">Skills</div>
-                <h2 class="fw-bold mt-2">Technology Stack & Capabilities</h2>
+                <div class="section-kicker">{{ __('site.home.skills') }}</div>
+                <h2 class="fw-bold mt-2">{{ __('site.home.skills_title') }}</h2>
             </div>
             <div class="row g-4">
                 @foreach($skills as $skill)
@@ -185,15 +185,15 @@
     <section id="experience" class="section section-soft">
         <div class="container">
             <div class="section-title">
-                <div class="section-kicker">Education & Experience</div>
-                <h2 class="fw-bold mt-2">Professional Timeline</h2>
+                <div class="section-kicker">{{ __('site.home.education_experience') }}</div>
+                <h2 class="fw-bold mt-2">{{ __('site.home.timeline_title') }}</h2>
             </div>
             <div class="timeline">
                 @foreach($experiences as $experience)
                     <article class="timeline-item">
                         <span class="badge text-bg-info text-white mb-2">{{ ucfirst($experience->type) }}</span>
                         <h3 class="h5 fw-bold mb-1">{{ $experience->title }}</h3>
-                        <div class="text-muted mb-2">{{ $experience->institution }}{{ $experience->location ? ' - '.$experience->location : '' }} · {{ $experience->start_year }} - {{ $experience->end_year ?: 'Present' }}</div>
+                        <div class="text-muted mb-2">{{ $experience->institution }}{{ $experience->location ? ' - '.$experience->location : '' }} &middot; {{ $experience->start_year }} - {{ $experience->end_year ?: __('site.common.present') }}</div>
                         <p class="text-secondary mb-0">{{ $experience->description }}</p>
                     </article>
                 @endforeach
@@ -205,11 +205,11 @@
         <div class="container">
             <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
                 <div class="section-title mb-0">
-                    <div class="section-kicker">Works / Portfolio</div>
-                    <h2 class="fw-bold mt-2">Selected Systems and Projects</h2>
+                    <div class="section-kicker">{{ __('site.home.works') }}</div>
+                    <h2 class="fw-bold mt-2">{{ __('site.home.works_title') }}</h2>
                 </div>
                 <div class="d-flex flex-wrap gap-2 align-self-lg-end">
-                    <button class="btn btn-sm btn-primary portfolio-filter" data-filter="all">All</button>
+                    <button class="btn btn-sm btn-primary portfolio-filter" data-filter="all">{{ __('site.common.all') }}</button>
                     @foreach($portfolioCategories as $category)
                         <button class="btn btn-sm btn-outline-primary portfolio-filter" data-filter="{{ $category }}">{{ $category }}</button>
                     @endforeach
@@ -231,12 +231,12 @@
                                 </div>
                                 <h3 class="h5 fw-bold">{{ $portfolio->title }}</h3>
                                 <p class="text-secondary">{{ $portfolio->short_description }}</p>
-                                <a href="{{ route('portfolio.show', $portfolio) }}" class="stretched-link text-decoration-none fw-semibold">View detail</a>
+                                <a href="{{ route('portfolio.show', $portfolio) }}" class="stretched-link text-decoration-none fw-semibold">{{ __('site.common.view_detail') }}</a>
                             </div>
                         </article>
                     </div>
                 @empty
-                    <div class="col-12"><div class="alert alert-info">Portfolio akan tampil setelah item berstatus published ditambahkan dari admin panel.</div></div>
+                    <div class="col-12"><div class="alert alert-info">{{ __('site.home.portfolio_empty') }}</div></div>
                 @endforelse
             </div>
         </div>
@@ -246,10 +246,10 @@
         <div class="container">
             <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
                 <div class="section-title mb-0">
-                    <div class="section-kicker">Publications</div>
-                    <h2 class="fw-bold mt-2">Academic Publications</h2>
+                    <div class="section-kicker">{{ __('site.home.publications') }}</div>
+                    <h2 class="fw-bold mt-2">{{ __('site.home.publications_title') }}</h2>
                 </div>
-                <a href="{{ route('publications.index') }}" class="btn btn-outline-primary align-self-md-end">View All</a>
+                <a href="{{ route('publications.index') }}" class="btn btn-outline-primary align-self-md-end">{{ __('site.common.view_all') }}</a>
             </div>
             <div class="row g-3">
                 @foreach($publications as $publication)
@@ -267,7 +267,7 @@
                                 </div>
                             @endif
                             @if($publication->url)
-                                <a href="{{ $publication->url }}" target="_blank" rel="noopener" class="fw-semibold mt-2 d-inline-block">Publication link</a>
+                                <a href="{{ $publication->url }}" target="_blank" rel="noopener" class="fw-semibold mt-2 d-inline-block">{{ __('site.common.publication_link') }}</a>
                             @endif
                         </article>
                     </div>
@@ -279,8 +279,8 @@
     <section id="teaching" class="section">
         <div class="container">
             <div class="section-title">
-                <div class="section-kicker">Teaching / Lecturer</div>
-                <h2 class="fw-bold mt-2">Courses and Academic Mentoring</h2>
+                <div class="section-kicker">{{ __('site.home.teaching') }}</div>
+                <h2 class="fw-bold mt-2">{{ __('site.home.teaching_title') }}</h2>
             </div>
             <div class="row g-3">
                 @foreach($teachingCourses as $course)
@@ -288,9 +288,9 @@
                         <article class="card card-clean p-4 h-100">
                             <h3 class="h5 fw-bold">{{ $course->course_name }}</h3>
                             <div class="text-muted small mb-2">{{ trim(($course->semester ? $course->semester.' · ' : '').($course->academic_year ?: '')) }}</div>
-                            <p class="text-secondary">{{ $course->description ?: 'Deskripsi mata kuliah dapat diperbarui dari admin panel.' }}</p>
+                            <p class="text-secondary">{{ $course->description ?: __('site.home.course_empty') }}</p>
                             @if($course->material_url)
-                                <a href="{{ $course->material_url }}" target="_blank" rel="noopener" class="fw-semibold">Course material</a>
+                                <a href="{{ $course->material_url }}" target="_blank" rel="noopener" class="fw-semibold">{{ __('site.common.course_material') }}</a>
                             @endif
                         </article>
                     </div>
@@ -299,12 +299,12 @@
 
             <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mt-5 mb-3">
                 <div>
-                    <div class="section-kicker">Student Supervision</div>
-                    <h3 class="fw-bold mt-2 mb-0">Academic Guidance & Mentoring</h3>
+                    <div class="section-kicker">{{ __('site.home.supervision') }}</div>
+                    <h3 class="fw-bold mt-2 mb-0">{{ __('site.home.supervision_title') }}</h3>
                 </div>
             </div>
             @if($supervisionsByYear->isEmpty())
-                <div class="alert alert-info mb-0">Data mahasiswa bimbingan dapat ditambahkan dari admin panel.</div>
+                <div class="alert alert-info mb-0">{{ __('site.home.supervision_empty') }}</div>
             @else
                 {{-- Year switcher: pills horizontal scroll, click → swap table di bawahnya --}}
                 <div class="year-switcher mb-3" role="tablist">
@@ -331,10 +331,10 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th style="width:60px;">#</th>
-                                                <th style="width:140px;">NRP</th>
-                                                <th style="width:240px;">Nama Mahasiswa</th>
-                                                <th>Judul Proyek</th>
-                                                <th style="width:110px;">Status</th>
+                                                <th style="width:140px;">{{ __('site.supervisions.student_id') }}</th>
+                                                <th style="width:240px;">{{ __('site.supervisions.student_name') }}</th>
+                                                <th>{{ __('site.supervisions.project_title') }}</th>
+                                                <th style="width:110px;">{{ __('site.supervisions.status') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -350,7 +350,7 @@
                                                         @endif
                                                         @if($s->result_url)
                                                             <a href="{{ $s->result_url }}" target="_blank" rel="noopener" class="small fw-semibold">
-                                                                View result <i class="bi bi-box-arrow-up-right"></i>
+                                                                {{ __('site.common.view_result') }} <i class="bi bi-box-arrow-up-right"></i>
                                                             </a>
                                                         @endif
                                                     </td>
@@ -420,10 +420,10 @@
         <div class="container">
             <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
                 <div class="section-title mb-0">
-                    <div class="section-kicker">Blog</div>
-                    <h2 class="fw-bold mt-2">Latest Notes</h2>
+                    <div class="section-kicker">{{ __('site.blog.title') }}</div>
+                    <h2 class="fw-bold mt-2">{{ __('site.home.blog_title') }}</h2>
                 </div>
-                <a href="{{ route('blog.index') }}" class="btn btn-outline-primary align-self-md-end">All Articles</a>
+                <a href="{{ route('blog.index') }}" class="btn btn-outline-primary align-self-md-end">{{ __('site.common.all_articles') }}</a>
             </div>
             <div class="row g-4">
                 @forelse($blogPosts as $post)
@@ -432,18 +432,18 @@
                             @if($post->thumbnail)
                                 <img src="{{ asset('storage/'.$post->thumbnail) }}" alt="{{ $post->title }}">
                             @else
-                                <div class="media-placeholder">{{ $post->category ?: 'Article' }}</div>
+                                <div class="media-placeholder">{{ $post->category ?: __('site.common.article') }}</div>
                             @endif
                             <div class="card-body">
-                                <div class="text-muted small mb-2">{{ $post->published_at?->format('d M Y') }} · {{ $post->category }}</div>
+                                <div class="text-muted small mb-2">{{ $post->published_at?->format('d M Y') }} &middot; {{ $post->category }}</div>
                                 <h3 class="h5 fw-bold">{{ $post->title }}</h3>
                                 <p class="text-secondary">{{ \Illuminate\Support\Str::limit($post->excerpt ?: strip_tags($post->content), 110) }}</p>
-                                <a href="{{ route('blog.show', $post) }}" class="stretched-link text-decoration-none fw-semibold">Read article</a>
+                                <a href="{{ route('blog.show', $post) }}" class="stretched-link text-decoration-none fw-semibold">{{ __('site.common.read_article') }}</a>
                             </div>
                         </article>
                     </div>
                 @empty
-                    <div class="col-12"><div class="alert alert-info">Artikel terbaru akan tampil setelah dipublikasikan dari admin panel.</div></div>
+                    <div class="col-12"><div class="alert alert-info">{{ __('site.home.blog_empty') }}</div></div>
                 @endforelse
             </div>
         </div>
@@ -454,10 +454,10 @@
             <div class="row g-5">
                 <div class="col-lg-5">
                     <div class="section-title">
-                        <div class="section-kicker">Contact</div>
-                        <h2 class="fw-bold mt-2">Let's Connect</h2>
+                        <div class="section-kicker">{{ __('site.nav.contact') }}</div>
+                        <h2 class="fw-bold mt-2">{{ __('site.home.contact_title') }}</h2>
                     </div>
-                    <p class="text-secondary">Untuk kolaborasi akademik, pengembangan sistem, pembimbingan, atau diskusi riset, silakan kirim pesan melalui form ini.</p>
+                    <p class="text-secondary">{{ __('site.home.contact_copy') }}</p>
                     <div class="d-flex flex-column gap-2">
                         @if($profile->primary_email)<a href="mailto:{{ $profile->primary_email }}" class="text-decoration-none"><i class="bi bi-envelope me-2"></i>{{ $profile->primary_email }}</a>@endif
                         @if($profile->location)<span><i class="bi bi-geo-alt me-2"></i>{{ $profile->location }}</span>@endif
@@ -476,27 +476,27 @@
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label" for="name">Name</label>
+                                <label class="form-label" for="name">{{ __('site.home.form.name') }}</label>
                                 <input id="name" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" required>
                                 @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="email">Email</label>
+                                <label class="form-label" for="email">{{ __('site.home.form.email') }}</label>
                                 <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" required>
                                 @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12">
-                                <label class="form-label" for="subject">Subject</label>
+                                <label class="form-label" for="subject">{{ __('site.home.form.subject') }}</label>
                                 <input id="subject" name="subject" value="{{ old('subject') }}" class="form-control @error('subject') is-invalid @enderror" required>
                                 @error('subject')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12">
-                                <label class="form-label" for="message">Message</label>
+                                <label class="form-label" for="message">{{ __('site.home.form.message') }}</label>
                                 <textarea id="message" name="message" rows="5" class="form-control @error('message') is-invalid @enderror" required>{{ old('message') }}</textarea>
                                 @error('message')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary btn-lg" type="submit">Send Message</button>
+                                <button class="btn btn-primary btn-lg" type="submit">{{ __('site.home.form.send') }}</button>
                             </div>
                         </div>
                     </form>

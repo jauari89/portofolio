@@ -1,14 +1,14 @@
 @extends('layouts.public')
 
-@section('title', 'Publications | '.($setting->site_name ?? 'Jauari Akhmad'))
+@section('title', __('site.publications.title').' | '.($setting->site_name ?? 'Jauari Akhmad'))
 
 @section('content')
 <main class="section section-soft">
     <div class="container">
         <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
             <div>
-                <div class="section-kicker">Publications</div>
-                <h1 class="fw-bold mt-2">Academic Publications</h1>
+                <div class="section-kicker">{{ __('site.publications.title') }}</div>
+                <h1 class="fw-bold mt-2">{{ __('site.publications.heading') }}</h1>
             </div>
             <form method="GET" class="row g-2 align-self-lg-end publication-filter" style="min-width:min(760px, 100%);">
                 @if($currentSort)
@@ -16,21 +16,21 @@
                     <input type="hidden" name="direction" value="{{ $currentDirection }}">
                 @endif
                 <div class="col-md-4">
-                    <label class="form-label small text-muted mb-1" for="publication-search">Keyword</label>
-                    <input id="publication-search" name="q" value="{{ $keyword }}" class="form-control" placeholder="Cari publikasi..." autocomplete="off">
+                    <label class="form-label small text-muted mb-1" for="publication-search">{{ __('site.publications.keyword') }}</label>
+                    <input id="publication-search" name="q" value="{{ $keyword }}" class="form-control" placeholder="{{ __('site.publications.keyword_placeholder') }}" autocomplete="off">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small text-muted mb-1" for="publication-search-by">Field</label>
+                    <label class="form-label small text-muted mb-1" for="publication-search-by">{{ __('site.publications.field') }}</label>
                     <select id="publication-search-by" name="search_by" class="form-select">
-                        <option value="" @selected($selectedSearchColumn === '')>All fields</option>
+                        <option value="" @selected($selectedSearchColumn === '')>{{ __('site.publications.all_fields') }}</option>
                         @foreach($searchColumns as $column => $label)
-                            <option value="{{ $column }}" @selected($selectedSearchColumn === $column)>{{ $label }}</option>
+                            <option value="{{ $column }}" @selected($selectedSearchColumn === $column)>{{ __("site.publications.columns.$column") }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small text-muted mb-1" for="publication-year">Year</label>
-                    <input id="publication-year" name="year" value="{{ $selectedYear }}" class="form-control" placeholder="All years" list="publication-years" inputmode="numeric" autocomplete="off">
+                    <label class="form-label small text-muted mb-1" for="publication-year">{{ __('site.publications.year') }}</label>
+                    <input id="publication-year" name="year" value="{{ $selectedYear }}" class="form-control" placeholder="{{ __('site.publications.all_years') }}" list="publication-years" inputmode="numeric" autocomplete="off">
                     <datalist id="publication-years">
                     @foreach($years as $year)
                         <option value="{{ $year }}">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-2 d-grid">
                     <label class="form-label small text-muted mb-1 d-none d-md-block">&nbsp;</label>
-                    <button class="btn btn-primary">Filter</button>
+                    <button class="btn btn-primary">{{ __('site.common.filter') }}</button>
                 </div>
             </form>
         </div>
@@ -49,7 +49,7 @@
                 <table class="table align-middle mb-0">
                     <thead class="table-light">
                         <tr>
-                            @foreach(['year' => 'Year', 'title' => 'Publication', 'journal_or_conference' => 'Venue'] as $column => $label)
+                            @foreach(['year' => __('site.publications.year'), 'title' => __('site.publications.publication'), 'journal_or_conference' => __('site.publications.venue')] as $column => $label)
                                 @php
                                     $isActiveSort = $currentSort === $column;
                                     $nextDirection = $isActiveSort && $currentDirection === 'asc' ? 'desc' : 'asc';
@@ -69,7 +69,7 @@
                                     </a>
                                 </th>
                             @endforeach
-                            <th style="width:120px;">Link</th>
+                            <th style="width:120px;">{{ __('site.publications.link') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,14 +91,14 @@
                                 <td>{{ $publication->journal_or_conference ?: $publication->publisher }}</td>
                                 <td>
                                     @if($publication->url)
-                                        <a href="{{ $publication->url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">Open</a>
+                                        <a href="{{ $publication->url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">{{ __('site.common.open') }}</a>
                                     @else
                                         <span class="text-muted small">-</span>
                                     @endif
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="4" class="text-center py-5 text-muted">Publikasi belum tersedia atau belum aktif.</td></tr>
+                            <tr><td colspan="4" class="text-center py-5 text-muted">{{ __('site.publications.empty') }}</td></tr>
                         @endforelse
                     </tbody>
                 </table>
