@@ -204,6 +204,7 @@
                         ['label' => 'Portfolios', 'icon' => 'bi bi-kanban', 'route' => 'admin.portfolios.index', 'match' => 'admin.portfolios.*'],
                         ['label' => 'Publications', 'icon' => 'bi bi-journal-text', 'route' => 'admin.publications.index', 'match' => 'admin.publications.*'],
                         ['label' => 'Teaching', 'icon' => 'bi bi-easel', 'route' => 'admin.teaching.index', 'match' => 'admin.teaching.*'],
+                        ['label' => 'Teaching Materials', 'icon' => 'bi bi-file-earmark-pdf', 'route' => 'admin.teaching-materials.index', 'match' => 'admin.teaching-materials.*'],
                         ['label' => 'Supervisions', 'icon' => 'bi bi-people', 'route' => 'admin.supervisions.index', 'match' => 'admin.supervisions.*'],
                         ['label' => 'Blog', 'icon' => 'bi bi-pencil-square', 'route' => 'admin.blog.index', 'match' => 'admin.blog.*'],
                     ],

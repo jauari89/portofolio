@@ -181,6 +181,9 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+        $this->call(TeachingCourseDetailSeeder::class);
+        $this->call(TeachingCourseWeeklyMaterialSeeder::class);
+
         $posts = [
             ['title' => 'Htaccess Di Nginx', 'category' => 'Web Development', 'excerpt' => 'Catatan ringkas tentang penyesuaian konfigurasi routing ketika aplikasi dipindahkan dari Apache ke Nginx.', 'content' => 'Artikel ini membahas hal-hal yang perlu diperhatikan saat menerjemahkan pola konfigurasi .htaccess ke blok konfigurasi Nginx, terutama untuk aplikasi web yang membutuhkan clean URL dan redirect yang konsisten.'],
             ['title' => 'Peluncuran Website HOMEi oleh Korina', 'category' => 'Project', 'excerpt' => 'Dokumentasi singkat peluncuran website sebagai bagian dari proses publikasi produk digital.', 'content' => 'Catatan ini mendokumentasikan proses peluncuran website HOMEi, termasuk kesiapan konten, pengecekan halaman publik, dan koordinasi publikasi digital.'],

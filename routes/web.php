@@ -17,12 +17,14 @@ use App\Http\Controllers\Admin\SocialLinkController as AdminSocialLinkController
 use App\Http\Controllers\Admin\StatController as AdminStatController;
 use App\Http\Controllers\Admin\SupervisionController as AdminSupervisionController;
 use App\Http\Controllers\Admin\TeachingCourseController as AdminTeachingCourseController;
+use App\Http\Controllers\Admin\TeachingCourseMaterialController as AdminTeachingCourseMaterialController;
 use App\Http\Controllers\PublicSite\BlogController;
 use App\Http\Controllers\PublicSite\ContactController;
 use App\Http\Controllers\PublicSite\HomeController;
 use App\Http\Controllers\PublicSite\PortfolioController;
 use App\Http\Controllers\PublicSite\PublicationController;
 use App\Http\Controllers\PublicSite\SupervisionController;
+use App\Http\Controllers\PublicSite\TeachingCourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('locale')->group(function () {
@@ -31,6 +33,7 @@ Route::middleware('locale')->group(function () {
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/{blogPost:slug}', [BlogController::class, 'show'])->name('blog.show');
     Route::get('/publications', [PublicationController::class, 'index'])->name('publications.index');
+    Route::get('/teaching/{teachingCourse:slug}', [TeachingCourseController::class, 'show'])->name('teaching.show');
     Route::get('/supervisions/{year}', [SupervisionController::class, 'showYear'])
         ->where('year', '[0-9]{4}')
         ->name('supervisions.year');
@@ -66,6 +69,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('portfolios', AdminPortfolioController::class);
         Route::resource('publications', AdminPublicationController::class);
         Route::resource('teaching', AdminTeachingCourseController::class);
+        Route::resource('teaching-materials', AdminTeachingCourseMaterialController::class);
         Route::resource('supervisions', AdminSupervisionController::class);
         Route::resource('blog', AdminBlogPostController::class);
         Route::resource('social-links', AdminSocialLinkController::class);

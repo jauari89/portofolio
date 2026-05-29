@@ -285,14 +285,12 @@
             <div class="row g-3">
                 @foreach($teachingCourses as $course)
                     <div class="col-md-6 col-xl-4">
-                        <article class="card card-clean p-4 h-100">
+                        <a href="{{ route('teaching.show', $course) }}" class="card card-clean p-4 h-100 text-decoration-none text-reset">
                             <h3 class="h5 fw-bold">{{ $course->course_name }}</h3>
                             <div class="text-muted small mb-2">{{ trim(($course->semester ? $course->semester.' · ' : '').($course->academic_year ?: '')) }}</div>
                             <p class="text-secondary">{{ $course->description ?: __('site.home.course_empty') }}</p>
-                            @if($course->material_url)
-                                <a href="{{ $course->material_url }}" target="_blank" rel="noopener" class="fw-semibold">{{ __('site.common.course_material') }}</a>
-                            @endif
-                        </article>
+                            <span class="fw-semibold mt-auto">{{ __('site.teaching.open_course') }} <i class="bi bi-arrow-right"></i></span>
+                        </a>
                     </div>
                 @endforeach
             </div>
